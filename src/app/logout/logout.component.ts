@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./logout.component.scss']
 })
 export class LogoutComponent implements OnInit {
-
+  isShown: boolean;
   constructor(private router : Router) { }
 
   ngOnInit() {
@@ -22,6 +22,7 @@ export class LogoutComponent implements OnInit {
   logout() 
    { 
     sessionStorage.removeItem('emailId');
+    this.isShown = false;
     this.router.navigate(['/login']);
     }
 }

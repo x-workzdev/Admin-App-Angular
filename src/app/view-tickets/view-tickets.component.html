@@ -1,0 +1,116 @@
+<!-- <div class="datatable" ng-style="yourModelToProvideValue">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="nav navbar-nav ml-auto">
+        <li class="nav-item" style="margin-right:0%;">
+          <a href="#" routerLink="/profile"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+        </li>
+         <li class="nav-item" style="left:950px;">
+          <a href="#" routerLink="/signup"><span class="glyphicon glyphicon-user" ></span> Add Client</a>
+        </li> -->
+        <!-- <li class="nav-item" style="left:950px;">
+          <a href="#" (click)="logout()"><span class="glyphicon glyphicon-log-out"></span> Log Out</a>
+        </li>
+      </ul>
+    </div>  -->
+    
+    <div class="datatable" style="width:115%">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1 style="text-align: center">Tickets List</h1><br>
+            <div class="row" [hidden]="!deleteMessage">
+    
+                      <div class="col-sm-4"></div>
+                      <div class="col-sm-4">
+                              <div class="alert alert-info alert-dismissible">
+                                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                      <strong>Student Data Deleted</strong>
+                              </div>
+                      </div>
+                      <div class="col-sm-4"></div>
+              </div>           
+          </div>
+      
+        
+        <div class="panel-body">
+            <table  class="table table-hover table-sm" datatable [dtOptions]="dtOptions"
+            [dtTrigger]="dtTrigger"  >
+                <thead class="thead-light">
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Model</th>
+                        <th>SerialNo</th>
+                        <th>McType</th>
+                        <th>Problem</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <tr *ngFor="let ticket of tickets">
+                        <td>{{ticket.companyName}}</td>
+                        <td>{{ticket.model}}</td>
+                        <td>{{ticket.serialNo}}</td>
+                        <td>{{ticket.mcType}}</td>
+                        <td>{{ticket.problem}}</td>
+                        <td>
+                          <button (click)="updateclient(client.clientId)" class='btn btn-success'
+                          data-toggle="modal" data-target="#myModal">Asign</button>
+                        </td>
+                      </tr> 
+                </tbody><br>
+            </table>
+        </div>
+      </div> 
+    
+      <div class="modal" id="myModal">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                      <form [formGroup]="clientupdateform" #updateclient (ngSubmit)="updateClientDetails(updateclient)">
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title" style="text-align: center">Update Client</h4>
+                    
+                  </div>
+                  
+                  <!-- Modal body -->
+                  <div class="modal-body" *ngFor="let client of clients" >
+                      <div [hidden]="isupdated">
+      
+                        <!-- <input type="hidden" class="form-control"  formControlName="clientId" [(ngModel)]="client.clientId"> -->
+                        <div class="form-group">
+                            <label for="customerName" class="sr-only">Customer Name</label>
+                            <input formControlName="customerName" type="text" name="customerName"  class="form-control" placeholder="Enter Customer Name" >
+                          </div>
+                            <div class="form-group">
+                              <label for="companyName" class="sr-only">Company Name</label>
+                              <input formControlName="companyName" type="text" name="companyName"  class="form-control" placeholder="Enter Company Name" >
+                            </div>
+                            <div class="form-group">
+                              <label for="email" class="sr-only">Email</label>
+                              <input formControlName="email" type="email" name="email"  class="form-control" placeholder="Enter Email Address" >
+                            </div>
+                            <div class="form-group mb-4">
+                              <label for="contactNumber" class="sr-only">Phone Nubmer</label>
+                              <input formControlName="contactNumber" type="number" name="contactNumber" class="form-control" placeholder="Enter Phone Nubmer">
+                            </div>
+                            <div class="form-group mb-4">
+                              <label for="address" class="sr-only">Address</label>
+                              <input formControlName="address" type="text" name="address"  class="form-control" placeholder="Enter Location">
+                            </div>
+    
+                        <div [hidden]="!isupdated">
+                            <h4>Client Details Updated!</h4>
+                        </div>        
+                          
+                  </div>
+                  </div>
+                  <!-- Modal footer -->
+                  <div class="modal-footer" >
+                    <button type="submit" class="btn btn-success" [hidden]="isupdated">Update</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="changeisUpdate()">Close</button>
+                  </div>  
+              </form>
+                </div>
+              </div>
+            </div>
+          </div>
+    

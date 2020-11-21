@@ -12,6 +12,7 @@ import { LoginService } from './services/login.service';
 import { ProfileComponent } from './profile/profile.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ViewClientRegistersComponent } from './view-client-registers/view-client-registers.component';
+import { ViewticketsComponent } from './view-tickets/view-tickets.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ViewClientRegistersComponent } from './view-client-registers/view-clien
     SignupComponent,
     ProfileComponent,
     LogoutComponent,
-    ViewClientRegistersComponent
+    ViewClientRegistersComponent,
+    ViewticketsComponent
   ],
   imports: [
     BrowserModule,

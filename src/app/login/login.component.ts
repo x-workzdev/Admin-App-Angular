@@ -12,7 +12,7 @@ import { Observable, Observer, of, observable } from 'rxjs';
 })
 
 export class LoginComponent implements OnInit {
- temp:any;
+  isShown: boolean = false ;
   private loginDetail = new LoginDetails();
 
 
@@ -40,10 +40,10 @@ export class LoginComponent implements OnInit {
              console.log('Response Code ='+statusCode);
 
              if(statusCode==201){
+              this.isShown = !this.isShown;
               alert(response.body.message);
               this.router.navigate(['/profile', response]);
               }
-
               else if (statusCode == 200) {
               alert(response.body.message);
               this.router.navigate(['/profile', response]);
@@ -72,6 +72,14 @@ export class LoginComponent implements OnInit {
       );
   }
 
+  logout() 
+   { 
+     debugger
+    this.isShown = false;
+    console.log(this.isShown);
+    this.router.navigate(['/login']);
+    }
+
   get EmailId(){
       return this.loginForm.get('emailId');
   }
@@ -79,7 +87,6 @@ export class LoginComponent implements OnInit {
   get Password(){
       return this.loginForm.get('password');
   }
-
 
 }
 

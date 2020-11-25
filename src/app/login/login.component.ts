@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoginDetails } from '../classes/login-details';
 import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
 import { Observable, Observer, of, observable } from 'rxjs';
+import { EventEmitter } from '@angular/core'; 
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,11 @@ import { Observable, Observer, of, observable } from 'rxjs';
 })
 
 export class LoginComponent implements OnInit {
-  isShown: boolean = false ;
+ user:String;
+ displayValue=false;
+ adminDetails:any;
+
+ @Output() countChanged: EventEmitter<any> = new EventEmitter();
   private loginDetail = new LoginDetails();
 
 
@@ -33,18 +38,33 @@ export class LoginComponent implements OnInit {
 
       this.loginService.sendloginDetails(this.loginDetail).subscribe(
         (response) => {
+             if (Response) { 
+                 hideloader(); 
+             } 
+            if(response != null){            
              var records = JSON.stringify(response)     
              console.log("Response ="+records);
+            
+             if(response.body.object !=null && response.body != null){
+             this.adminDetails = response.body.object
+             sessionStorage.setItem("name",this.adminDetails.fullName);
+             sessionStorage.setItem("role",this.adminDetails.role);
+            }
             
              var statusCode = response.body.statusCode;
              console.log('Response Code ='+statusCode);
 
              if(statusCode==201){
-              this.isShown = !this.isShown;
               alert(response.body.message);
               this.router.navigate(['/profile', response]);
               }
+
               else if (statusCode == 200) {
+               this.displayValue=true
+               this.countChanged.emit(this.displayValue);
+                 
+              sessionStorage.setItem("currentUser", this.EmailId.value); 
+              this.user = this.EmailId.value;
               alert(response.body.message);
               this.router.navigate(['/profile', response]);
               }
@@ -53,6 +73,7 @@ export class LoginComponent implements OnInit {
               alert(response.body.message);
               this.router.navigate(['/login']);
              }
+            }  
             error =>((error: any) => {
               console.log("Error in authentication");
               if (error.statusCode === 500) {
@@ -68,17 +89,13 @@ export class LoginComponent implements OnInit {
                   return Observable.throw(new Error(error.statusCode));
               }
           });
+         
+          function hideloader() { 
+            document.getElementById('loading').style.display = 'none'; 
+        } 
        }
       );
   }
-
-  logout() 
-   { 
-     debugger
-    this.isShown = false;
-    console.log(this.isShown);
-    this.router.navigate(['/login']);
-    }
 
   get EmailId(){
       return this.loginForm.get('emailId');

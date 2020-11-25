@@ -13,6 +13,11 @@ import { ProfileComponent } from './profile/profile.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ViewClientRegistersComponent } from './view-client-registers/view-client-registers.component';
 import { ViewticketsComponent } from './view-tickets/view-tickets.component';
+import { ViewGadgetsComponent } from './view-gadgets/view-gadgets.component';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 
 @NgModule({
   declarations: [
@@ -23,7 +28,11 @@ import { ViewticketsComponent } from './view-tickets/view-tickets.component';
     ProfileComponent,
     LogoutComponent,
     ViewClientRegistersComponent,
-    ViewticketsComponent
+    ViewticketsComponent,
+    ViewGadgetsComponent,
+    ReactiveFormsModule,
+     DropDownListModule,
+      ButtonModule,
   ],
   imports: [
     BrowserModule,
@@ -32,9 +41,11 @@ import { ViewticketsComponent } from './view-tickets/view-tickets.component';
     ReactiveFormsModule,
     BrowserModule,
     HttpClientModule,
-    DataTablesModule
+    DataTablesModule,
+    NgxSpinnerModule,
+    BrowserAnimationsModule
   ],
-  providers: [LoginService],
+  providers: [LoginService,NgxSpinnerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

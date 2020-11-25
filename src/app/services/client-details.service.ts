@@ -17,18 +17,18 @@ export class ClientDetailsService {
   }
 
   createClient(client: object): Observable<object> {
-    return this.httpClient.post(environment.apiUrl+'save-Client', client);
+    return this.httpClient.post(environment.apiUrl+'registration', client);
   }
 
-  deleteClient(id: number): Observable<any> {
-    return this.httpClient.delete(environment.apiUrl+'delete-Client/${id}', { responseType: 'text' });
+  deleteClient(companyName: String): Observable<any> {
+    return this.httpClient.delete(environment.apiUrl+`deleteClient/${companyName}`, {observe:'response', responseType: 'json'});
   }
 
-  getClient(id: number): Observable<Object> {
-    return this.httpClient.get(environment.apiUrl+'Client/${id}');
+  getClient(company: String): Observable<Object> {
+    return this.httpClient.get(environment.apiUrl+'Client/${companyName}');
   }
 
-  updateClient(id: Number, value: any): Observable<Object> {
-    return this.httpClient.post(environment.apiUrl+'update-Client/${id}', value);
+  updateClient(company: String, value: any): Observable<Object> {
+    return this.httpClient.post(environment.apiUrl+'update-client/${companyName}', value);
   }
 }

@@ -14,4 +14,8 @@ export class TicketsService {
   getTicketsList(): Observable <any> {
     return this.httpClient.get(environment.apiUrl+'viewAllTickets');
   }
+
+  getEngineerEmailIds(): Observable <any> {
+    return this.httpClient.get(environment.apiUrl+'viewAllEngineer');
+  }
 }

@@ -4,20 +4,29 @@ import { Router } from '@angular/router';
 import { SignUpDetails } from '../classes/signup-details';
 import { SignupService } from '../services/signup.service';
 import { Observable, Observer, of, observable } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
+import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss']
+  styleUrls: ['./signup.component.scss'],
+  animations: [
+    fadeInOnEnterAnimation(),
+    fadeOutOnLeaveAnimation()
+  ]
 })
 export class SignupComponent implements OnInit {
-
+  gorresponse:boolean;
   private signupDetails = new SignUpDetails();
 
-  constructor(private signupService : SignupService, private router : Router) { }
+  constructor(private signupService : SignupService, private router : Router,private SpinnerService: NgxSpinnerService) { }
+
 
   ngOnInit() {
   }
+
+  ngAfterViewInit(): void { this.SpinnerService.show(); }
 
   signupForm = new FormGroup({
     customerName: new FormControl('' , Validators.required),
@@ -34,9 +43,14 @@ SignUp(SignUpInformation)
       this.signupDetails.emailId = this.EmailId.value;
       this.signupDetails.contactNumber = this.ContactNumber.value;
       this.signupDetails.address = this.Address.value;
-
+      debugger
+      this.SpinnerService.show();
       this.signupService.sendSignUpDetails(this.signupDetails).subscribe(
         response => {
+          if (Response) { 
+            hideloader();
+            this.gorresponse=true; 
+          } 
           var records = JSON.stringify(response)     
           console.log("Response ="+records);
          
@@ -72,6 +86,12 @@ SignUp(SignUpInformation)
                return Observable.throw(new Error(error.status));
               }
             });
+
+            this.SpinnerService.hide(); 
+            function hideloader() { 
+              document.getElementById('loading').style.display = 'none'; 
+          } 
+           
           }
         );
     }

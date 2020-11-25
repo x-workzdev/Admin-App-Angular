@@ -1,52 +1,62 @@
-
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-  <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">ADMIN APP</a>
+<div>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">ADMIN APP</a>
+        </div>
+        <ul class="nav navbar-nav">
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><b><h4 style="color: yellow;margin-top: 0.8em; margin-right: 2em;" *ngIf="condition">Welcome {{fullName}}</h4></b></li>
+          <li><a href="#" (click)="logout()" *ngIf="condition"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+          <li><a href="#" routerLink="/login" *ngIf="!condition"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
       </div>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" routerLink="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-      </ul>
-    </div>
-  </nav>
-</nav>
+    </nav>
+  </div> 
+  <div>
+    <app-login (countChanged)="countChangedHandler($event)" *ngIf="!condition"></app-login ></div>
 
-
-<div class="wrapper d-flex align-items-stretch" ng-show="profile">
-  <nav id="sidebar">
-      <div class="p-4 pt-5">
-        <a class="img logo rounded-circle mb-5" style="background-image: url(assets/login.jpg);"></a>
-  <ul class="list-unstyled components mb-5">
-    <li class="active">
-      <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-      <ul class="collapse list-unstyled" id="homeSubmenu">
-      </ul>
-    </li>
-    <li>
-      <a href="#" routerLink="/clients">Clients</a>
+    <div class="wrapper d-flex align-items-stretch" *ngIf="condition" style="height: 100%;">
+    <nav id="sidebar">
+        <div class="p-4 pt-5">
+          <a class="img logo rounded-circle mb-5" style="background-image: url(assets/login.jpg);"></a>
+    <ul class="list-unstyled components mb-5">
+      <li class="active">
+        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+        <ul class="collapse list-unstyled" id="homeSubmenu">
+        </ul>
       </li>
-    <li>
-      <a href="#" routerLink="/tickets">Tickets</a>
-    </li>
-    <li>
-      <a href="#" routerLink="/login">Logout</a>
-    </li>
-  </ul>
-</div>
-</nav>
-
-<!-- Page Content  -->
-<!-- <div id="content" class="p-4 p-md-5">
-</div> -->
-<router-outlet></router-outlet>
-<div class="footer">
-  <footer>
-  <p class="h6">© All right Reversed By <a class="text-green ml-2" href="#" target="_blank">Client App</a></p>
-</footer> 
-</div>
+       <li *ngIf="userRole == 'ADMIN'">
+        <a href="#" routerLink="/clients">Clients</a>
+        </li>
+        <li *ngIf="userRole == 'ADMIN'">
+          <a href="#" routerLink="/gadgets">Assets Assigned</a>
+        </li>
+      <li>
+        <a href="#" routerLink="/tickets" >All Tickets</a>
+      </li>
+      <li>
+        <a (click)="logout()">Logout</a>
+      </li>
+    </ul>
+  </div>
+  </nav>
+  <div style="width: 80%;align-content: center;">
+  <router-outlet></router-outlet>
+  </div>
+  </div>
+  
     <script src="assets/js/jquery.min.assets/js"></script>
     <script src="assets/js/popper.assets/js"></script>
     <script src="assets/js/bootstrap.min.assets/js"></script>
-    <script src="assets/js/main.assets/js"></script>
-
+    <script src="assets/js/main.assets/js"></script> -->
+  
+   
+  <div class="footer">
+    <footer>
+    <p class="h6">© All right Reversed By <a class="text-green ml-2" href="#" target="_blank">Client App</a></p>
+  </footer> 
+  </div>
+  
+  

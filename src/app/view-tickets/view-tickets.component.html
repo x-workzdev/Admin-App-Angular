@@ -13,7 +13,7 @@
       </ul>
     </div>  -->
     
-    <div class="datatable" style="width:115%">
+    <div class="datatable">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h1 style="text-align: center">Tickets List</h1><br>
@@ -37,22 +37,24 @@
                 <thead class="thead-light">
                     <tr>
                         <th>Company Name</th>
+                        <th>Complaint Id</th>
                         <th>Model</th>
                         <th>SerialNo</th>
                         <th>McType</th>
-                        <th>Problem</th>
+                        <th>Issue</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                     <tr *ngFor="let ticket of tickets">
+                     <tr *ngFor="let ticket of tickets; let i=index;">
                         <td>{{ticket.companyName}}</td>
+                        <td>{{ticket.complaintId}}</td>
                         <td>{{ticket.model}}</td>
                         <td>{{ticket.serialNo}}</td>
                         <td>{{ticket.mcType}}</td>
                         <td>{{ticket.problem}}</td>
                         <td>
-                          <button (click)="updateclient(client.clientId)" class='btn btn-success'
+                          <button (click)="TicketSelected(ticket)" class='btn btn-success'
                           data-toggle="modal" data-target="#myModal">Asign</button>
                         </td>
                       </tr> 
@@ -64,49 +66,58 @@
       <div class="modal" id="myModal">
               <div class="modal-dialog">
                 <div class="modal-content">
-                      <form [formGroup]="clientupdateform" #updateclient (ngSubmit)="updateClientDetails(updateclient)">
+                      <form [formGroup]="ticketform" #asignticket (ngSubmit)="asignTicketDetails(asignticket)">
                   <!-- Modal Header -->
                   <div class="modal-header">
-                    <h4 class="modal-title" style="text-align: center">Update Client</h4>
-                    
+                    <h4 class="modal-title" style="text-align: center">Asign Issue</h4>
                   </div>
                   
                   <!-- Modal body -->
-                  <div class="modal-body" *ngFor="let client of clients" >
-                      <div [hidden]="isupdated">
+                  <div class="modal-body">
+                      <div>
       
-                        <!-- <input type="hidden" class="form-control"  formControlName="clientId" [(ngModel)]="client.clientId"> -->
-                        <div class="form-group">
-                            <label for="customerName" class="sr-only">Customer Name</label>
-                            <input formControlName="customerName" type="text" name="customerName"  class="form-control" placeholder="Enter Customer Name" >
+                          <div class="form-group">
+                            <label for="companyName" class="sr-only">Company Name</label>
+                            <input formControlName="companyName" type="text" name="companyName" id="companyName" class="form-control" placeholder="Enter Company Name" [(ngModel)]="ticket.companyName">
                           </div>
-                            <div class="form-group">
-                              <label for="companyName" class="sr-only">Company Name</label>
-                              <input formControlName="companyName" type="text" name="companyName"  class="form-control" placeholder="Enter Company Name" >
-                            </div>
-                            <div class="form-group">
-                              <label for="email" class="sr-only">Email</label>
-                              <input formControlName="email" type="email" name="email"  class="form-control" placeholder="Enter Email Address" >
-                            </div>
-                            <div class="form-group mb-4">
-                              <label for="contactNumber" class="sr-only">Phone Nubmer</label>
-                              <input formControlName="contactNumber" type="number" name="contactNumber" class="form-control" placeholder="Enter Phone Nubmer">
-                            </div>
-                            <div class="form-group mb-4">
-                              <label for="address" class="sr-only">Address</label>
-                              <input formControlName="address" type="text" name="address"  class="form-control" placeholder="Enter Location">
-                            </div>
+                          <div class="form-group">
+                            <label for="model" class="sr-only">Model</label>
+                            <input formControlName="model" type="text" name="model" id="model" class="form-control" placeholder="Enter Model" [(ngModel)]="ticket.model">
+                          </div>
+                          <div class="form-group mb-4">
+                            <label for="serialNo" class="sr-only">SerialNo</label>
+                            <input formControlName="serialNo" type="text" name="serialNo" id="serialNo" class="form-control" placeholder="Enter SerialNo" [(ngModel)]="ticket.serialNo">
+                          </div>
+                          <div class="form-group mb-4">
+                            <label for="mcType" class="sr-only">McType</label>
+                            <input formControlName="mcType" type="text" name="mcType" id="mcType" class="form-control" placeholder="Enter McType" [(ngModel)]="ticket.mcType">
+                          </div>
+                          <div class="form-group mb-4">
+                            <label for="problem" class="sr-only">Issue</label>
+                            <input formControlName="problem" type="text" name="problem" id="problem" class="form-control" placeholder="Enter Problem" [(ngModel)]="ticket.problem">
+                          </div>
+
+                          <div class="form-group">
+                            <!-- <label for="emailId" class="sr-only">EmailId</label>
+                            <input formControlName="emailId" type="text" name="emailId"  class="form-control" placeholder="Enter Engineer EmailId"> -->
+                            <!-- <ejs-dropdownlist id='ddlelement' #samples [dataSource]='engineerEmailIds' [fields]='fields' [placeholder]='text'></ejs-dropdownlist>` -->
+                          </div>
+
+                          <div class="form-group">
+                            <label for="leadComment" class="sr-only">Lead Comment</label>
+                            <textarea formControlName="leadComment"  name="ledComment"  class="form-control" placeholder="Enter Your Comments" rows="4" cols="50"></textarea>
+                          </div>
     
-                        <div [hidden]="!isupdated">
-                            <h4>Client Details Updated!</h4>
+                        <div>
+                            <h4>Ticket Asigned Successfuly!</h4>
                         </div>        
                           
                   </div>
                   </div>
                   <!-- Modal footer -->
                   <div class="modal-footer" >
-                    <button type="submit" class="btn btn-success" [hidden]="isupdated">Update</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="changeisUpdate()">Close</button>
+                    <button type="submit" class="btn btn-success">Asign</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                   </div>  
               </form>
                 </div>

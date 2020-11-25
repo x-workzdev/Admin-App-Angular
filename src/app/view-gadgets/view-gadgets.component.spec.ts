@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { ProfileComponent } from './profile.component';
+import { ViewGadgetsComponent } from './view-gadgets.component';
 
-describe('ProfileComponent', () => {
-  let component: ProfileComponent;
-  let fixture: ComponentFixture<ProfileComponent>;
+describe('ViewGadgetsComponent', () => {
+  let component: ViewGadgetsComponent;
+  let fixture: ComponentFixture<ViewGadgetsComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfileComponent ]
+      declarations: [ ViewGadgetsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProfileComponent);
+    fixture = TestBed.createComponent(ViewGadgetsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

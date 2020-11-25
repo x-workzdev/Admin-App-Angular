@@ -22,7 +22,10 @@ export class ViewticketsComponent implements OnInit {
   ticket : TicketDetails = new TicketDetails();
   deleteMessage=false;
   ticketlist:any;
-  isasiged = false;   
+  isasiged = false;
+  public engineerEmailIds:any; 
+  public fields:Object;  
+  public text:String; 
 
   ngOnInit() {
     this.isasiged=false;
@@ -37,6 +40,12 @@ export class ViewticketsComponent implements OnInit {
     console.log('got data from console='+this.tickets);
     this.dtTrigger.next();
     })
+    this.ticketsService.getEngineerEmailIds().subscribe(data =>{  
+      this.engineerEmailIds =data;
+      console.log('got data from getEngineerEmailIds()='+this.engineerEmailIds);
+      this.fields = { text: 'emailId', value: 'Id' };
+      this.text = "Select a game";
+      })
   }
    
   ticketform=new FormGroup({
@@ -45,7 +54,16 @@ export class ViewticketsComponent implements OnInit {
     serialNo: new FormControl('', Validators.required),
     mcType : new FormControl('' , Validators.required),
     problem : new FormControl('' , Validators.required),
+    emailId : new FormControl('' , Validators.required),
+    leadComment : new FormControl(),
+    complaintId: new FormControl(),
   });
+
+  TicketSelected(ticket:any){
+    console.log(ticket);
+    this.ticket = ticket;
+  }
+
 
   asignTicketDetails(asignticket){
     this.ticket=new TicketDetails(); 
@@ -54,7 +72,7 @@ export class ViewticketsComponent implements OnInit {
     this.ticket.serialNo = this.SerialNo.value;
     this.ticket.mcType = this.McType.value;
     this.ticket.problem = this.Problem.value;
-  
+    this.ticket.emailId = this.EmailId.value;
    
    this.ticketsService.getTicketsList().subscribe(
     data => {     
@@ -65,6 +83,11 @@ export class ViewticketsComponent implements OnInit {
     },
     error => console.log(error));
   } 
+
+  get EmailId(){
+    return this.ticketform.get('emailId');
+  }
+
   get CompanyName(){
     return this.ticketform.get('companyName');
   }

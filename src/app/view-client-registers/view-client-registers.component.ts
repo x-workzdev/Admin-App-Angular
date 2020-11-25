@@ -39,8 +39,9 @@ import { ClientDetails } from '../classes/client-details';
     })
   }
 
-  deleteclient(id: number) {
-    this.clientdetailService.deleteClient(id)
+  deleteclient(companyName: String) {
+    console.log("company in delete client="+companyName)
+    this.clientdetailService.deleteClient(companyName)
       .subscribe(
         data => {
           console.log(data);
@@ -53,8 +54,8 @@ import { ClientDetails } from '../classes/client-details';
   }
 
 
-  updateclient(id: number){
-    this.clientdetailService.getClient(id)
+  updateclient(companyName: String){
+    this.clientdetailService.getClient(companyName)
       .subscribe(
         data => {
           this.clientlist=data           
@@ -62,28 +63,33 @@ import { ClientDetails } from '../classes/client-details';
         error => console.log(error));
   }
 
+  ClientSelected(client:any){
+    this.client = client;
+  }
+
   clientupdateform=new FormGroup({
     customerName: new FormControl('' , Validators.required),
     companyName: new FormControl('' , Validators.required),
-    email: new FormControl('', Validators.required),
+    emailId: new FormControl('', Validators.required),
     contactNumber : new FormControl('' , Validators.required),
     address : new FormControl('' , Validators.required),
   });
 
   updateClientDetails(updateclient){
     this.client=new ClientDetails(); 
-    this.client.clientId=this.ClientId.value;
     this.client.customerName = this.CoustumerName.value;
     this.client.companyName = this.CompanyName.value;
-    this.client.email = this.Email.value;
+    this.client.emailId = this.Email.value;
     this.client.contactNumber = this.ContactNumber.value;
     this.client.address = this.Address.value;
    
-   this.clientdetailService.updateClient(this.client.clientId,this.client).subscribe(
+   this.clientdetailService.updateClient(this.client.companyName,this.client).subscribe(
     data => {     
       this.isupdated=true;
       this.clientdetailService.getClientsList().subscribe(data =>{
-        this.clients =data
+        this.clients =data;
+        console.log(this.clients);
+        console.log(data);
         })
     },
     error => console.log(error));
@@ -94,7 +100,7 @@ import { ClientDetails } from '../classes/client-details';
   }
 
   get Email(){
-    return this.clientupdateform.get('email');
+    return this.clientupdateform.get('emailId');
   }
   
   get CoustumerName(){

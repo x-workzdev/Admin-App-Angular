@@ -1,0 +1,21 @@
+[{
+    "customerName":"vinay",
+    "companyName":"x-workz",
+    "email":"x-workz@gmail.com",
+    "contactNumber":8722790025,
+    "address":"Banglore"
+},
+{
+    "customerName":"Eashwar",
+    "companyName":"infoTech",
+    "email":"infoTech@gmail.com",
+    "contactNumber":9722790026,
+    "address":"Mysure"
+},
+{
+    "customerName":"Akshar",
+    "companyName":"infoWorld",
+    "email":"infoWorld@gmail.com",
+    "contactNumber":922790025,
+    "address":"rajajinagar"
+}]

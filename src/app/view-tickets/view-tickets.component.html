@@ -1,0 +1,193 @@
+ 
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1 style="text-align: center">Tickets List</h1><br>
+            <div class="row" [hidden]="!deleteMessage">
+                      <div class="col-sm-4"></div>
+              </div>           
+          </div>
+      
+        
+        <div class="panel-body">
+            <table  class="table table-hover table-sm" datatable [dtOptions]="dtOptions"
+            [dtTrigger]="dtTrigger"  >
+                <thead class="thead-light">
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Complaint Id</th>
+                        <th>Model</th>
+                        <th>SerialNo</th>
+                        <th>McType</th>
+                        <th>Issue</th>
+                        <th>Date</th>
+                        <th>Complaint Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <tr *ngFor="let ticket of tickets; let i=index; ">
+                        <td>{{ticket.registration.companyName}}</td>
+                        <td>{{ticket.complaintId}}</td>
+                        <td>{{ticket.model}}</td>
+                        <td>{{ticket.serialNo}}</td>
+                        <td>{{ticket.mcType}}</td>
+                        <td>{{ticket.problem}}</td>
+                        <td>{{ticket.date | date:'short'}}</td>
+                        <td>{{ticket.complaintStatus}}</td>
+                        <td>
+                          <button (click)="TicketSelected(ticket,ticket.registration.companyName)" class='btn btn-success'
+                          data-toggle="modal" data-target="#myModal" [disabled]="ticket.complaintStatus == 'ASSIGNED' || ticket.complaintStatus == 'COMPLETED'" *ngIf="userRole == 'ADMIN'">Asign</button>
+                          <button (click)="TicketSelected(ticket,ticket.registration.companyName)" class='btn btn-danger'
+                          data-toggle="modal" data-target="#engineerModel" *ngIf="userRole == 'ENGINEER'" [disabled]="ticket.complaintStatus == 'COMPLETED'">Complete</button>
+                        </td>
+                      </tr> 
+                </tbody><br>
+            </table>
+        </div>
+      </div> 
+    
+      <div class="modal" id="myModal">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                      <form [formGroup]="ticketform" #asignticket (ngSubmit)="asignTicketDetails(asignticket)">
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title" style="text-align: center">Asign Issue</h4>
+                  </div>
+                  
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                      <div [hidden]="isRaised">
+                          <div class="form-group">
+                            <label for="companyName" class="sr-only">Company Name</label>
+                            <input [readonly]="true" formControlName="companyName" type="text" name="companyName" id="companyName" class="form-control" placeholder="Enter Company Name" [(ngModel)]="ticket.companyName">
+                          </div>
+                          <div class="form-group">
+                            <label for="complaintId" class="sr-only">ComplaintId</label>
+                            <input [readonly]="true" formControlName="complaintId" type="text" name="complaintId" id="complaintId" class="form-control" placeholder="Enter ComplaintId" [(ngModel)]="ticket.complaintId">
+                          </div>
+                          <div class="form-group">
+                            <label for="model" class="sr-only">Model</label>
+                            <input formControlName="model" type="text" name="model" id="model" class="form-control" placeholder="Enter Model" [(ngModel)]="ticket.model">
+                          </div>
+                          <div class="form-group mb-4">
+                            <label for="serialNo" class="sr-only">SerialNo</label>
+                            <input formControlName="serialNo" type="text" name="serialNo" id="serialNo" class="form-control" placeholder="Enter SerialNo" [(ngModel)]="ticket.serialNo">
+                          </div>
+                          <div class="form-group mb-4">
+                            <label for="mcType" class="sr-only">McType</label>
+                            <input formControlName="mcType" type="text" name="mcType" id="mcType" class="form-control" placeholder="Enter McType" [(ngModel)]="ticket.mcType">
+                          </div>
+                          <div class="form-group mb-4">
+                            <label for="problem" class="sr-only">Issue</label>
+                            <input formControlName="problem" type="text" name="problem" id="problem" class="form-control" placeholder="Enter Problem" [(ngModel)]="ticket.problem">
+                          </div>
+                          <div class="form-group mb-4">
+                            <label for="complaintStatus" class="sr-only">Complaint Status</label>
+                            <div class="e-float-input e-disabled">
+                            <input [readonly]="true" formControlName="complaintStatus" type="text" name="complaintStatus" id="complaintStatus" class="form-control" placeholder="Enter complaintStatus" [(ngModel)]="ticketStatus">
+                          </div>
+                           </div>
+
+                          <div class="form-group mb-4">
+                            <select class="form-control" formControlName="engineerEmail">
+                              <option value="">Select engineer emailId</option>
+                              <option *ngFor="let engineer of engineerdetails">{{engineer.emailId}}</option>
+                            </select>
+                          </div>
+                          
+                          <div class="form-group">
+                            <label for="leadComment" class="sr-only">Lead Comment</label>
+                            <textarea formControlName="leadComment"  name="ledComment"  class="form-control" placeholder="Enter Your Comments" rows="4" cols="50"></textarea>
+                          </div>
+                     
+                    </div>
+                        <div [hidden]="!isRaised">
+                            <h4>Ticket Assigned Successfuly!</h4>
+                        </div>        
+                          
+                  </div>
+                  <!-- Modal footer -->
+                  <div class="modal-footer" >
+                    <button type="submit" class="btn btn-success" [disabled]="isRaised">Asign</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                  </div>  
+              </form>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="modal" id="engineerModel">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                    <form [formGroup]="ticketform" #asignticket (ngSubmit)="asignTicketDetails(asignticket)">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title" style="text-align: center">Complete Issue</h4>
+                </div>
+                
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div [hidden]="isRaised">
+    
+                        <div class="form-group">
+                          <label for="companyName" class="sr-only">Company Name</label>
+                          <input [readonly]="true" formControlName="companyName" type="text" name="companyName" id="companyName" class="form-control" placeholder="Enter Company Name" [(ngModel)]="ticket.companyName">
+                        </div>
+                        <div class="form-group">
+                          <label for="complaintId" class="sr-only">ComplaintId</label>
+                          <input [readonly]="true" formControlName="complaintId" type="text" name="complaintId" id="complaintId" class="form-control" placeholder="Enter ComplaintId" [(ngModel)]="ticket.complaintId">
+                        </div>
+                        <div class="form-group">
+                          <label for="model" class="sr-only">Model</label>
+                          <input formControlName="model" type="text" name="model" id="model" class="form-control" placeholder="Enter Model" [(ngModel)]="ticket.model">
+                        </div>
+                        <div class="form-group mb-4">
+                          <label for="serialNo" class="sr-only">SerialNo</label>
+                          <input formControlName="serialNo" type="text" name="serialNo" id="serialNo" class="form-control" placeholder="Enter SerialNo" [(ngModel)]="ticket.serialNo">
+                        </div>
+                        <div class="form-group mb-4">
+                          <label for="mcType" class="sr-only">McType</label>
+                          <input formControlName="mcType" type="text" name="mcType" id="mcType" class="form-control" placeholder="Enter McType" [(ngModel)]="ticket.mcType">
+                        </div>
+                        <div class="form-group mb-4">
+                          <label for="problem" class="sr-only">Issue</label>
+                          <input formControlName="problem" type="text" name="problem" id="problem" class="form-control" placeholder="Enter Problem" [(ngModel)]="ticket.problem">
+                        </div>
+                        <div class="form-group mb-4" *ngIf="userRole == 'ENGINEER'">
+                          <label for="complaintStatus" class="sr-only">Complaint Status</label>
+                          <div class="e-float-input e-disabled">
+                          <input [readonly]="true" formControlName="complaintStatus" type="text" name="complaintStatus" id="complaintStatus" class="form-control" placeholder="Enter complaintStatus" [(ngModel)]="ticketComlete">
+                        </div>
+                         </div>
+                         
+                        <div class="form-group" *ngIf="userRole == 'ENGINEER'">
+                          <div class="e-float-input e-disabled">
+                          <label for="engineerEmail" class="sr-only" >Engineer EmailId</label>
+                          <input [readonly]="true" formControlName="engineerEmail"  name="engineerEmail"  class="form-control" placeholder="Enter Engineer EmailId" [(ngModel)]="currentUser">
+                          </div>
+                        </div>
+
+                        <div class="form-group" *ngIf="userRole == 'ENGINEER'">
+                          <label for="engineerComment" class="sr-only" >Engineer Comment</label>
+                          <textarea formControlName="engineerComment"  name="engineerComment"  class="form-control" placeholder="Enter Your Comments" rows="4" cols="50"></textarea>
+                        </div>
+                   
+                  </div>
+                      <div [hidden]="!isRaised">
+                          <h4>Ticket Completed Successfuly!</h4>
+                      </div>        
+                        
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer" >
+                  <button type="submit" class="btn btn-success" [disabled]="isRaised">Complete</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>  
+            </form>
+            </div>
+          </div>
+        </div>
+    

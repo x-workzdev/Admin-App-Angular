@@ -1,0 +1,43 @@
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1 style="text-align: center">Gadgets List</h1><br>
+            <div class="row" [hidden]="!deleteMessage">
+    
+                      <div class="col-sm-4"></div>
+                      <div class="col-sm-4">
+                              <div class="alert alert-info alert-dismissible">
+                                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                      <strong>Gadget Data Deleted</strong>
+                              </div>
+                      </div>
+                    <div class="col-sm-4"></div>
+              </div>           
+          </div>
+      
+        
+        <div class="panel-body">
+            <table  class="table table-hover table-sm" datatable [dtOptions]="dtOptions"
+            [dtTrigger]="dtTrigger"  >
+                <thead class="thead-light">
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Model</th>
+                        <th>SerialNo</th>
+                        <th>McType</th>
+                        <th>Date Of Assign</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <tr *ngFor="let gadget of gadgets">
+                        <td>{{gadget.companyName}}</td>
+                        <td>{{gadget.model}}</td>
+                        <td>{{gadget.serialNo}}</td>
+                        <td>{{gadget.mcType}}</td>
+                        <td>{{gadget.dateOfAssigne}}</td>
+                        <td>{{gadget.status}}</td>
+                      </tr> 
+                </tbody><br>
+            </table>
+        </div>

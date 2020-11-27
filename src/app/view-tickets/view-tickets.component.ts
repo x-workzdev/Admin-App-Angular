@@ -1,20 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Component, OnInit,ChangeDetectionStrategy, Inject } from '@angular/core';
+import { from, Observable, Subject } from 'rxjs';
 import { TicketDetails } from '../classes/ticket-details';
 import { TicketsService } from '../services/tickets.service';
 import {FormControl,FormGroup,Validators} from '@angular/forms';
 import { AssignTicketDetails } from '../classes/assignTicket-details';
-import { Router } from '@angular/router';
-
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {DOCUMENT, Location} from '@angular/common'
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app-view-tickets',
   templateUrl: './view-tickets.component.html',
   styleUrls: ['./view-tickets.component.scss']
 })
 export class ViewticketsComponent implements OnInit {
+  mySubscription: any;
 
-  constructor(private ticketsService:TicketsService,private router:Router) { }
+  constructor(private ticketsService:TicketsService,public router:Router,public location: Location,private activatedRoute: ActivatedRoute, @Inject(DOCUMENT) private _document: Document) {
+    // this.router.routeReuseStrategy.shouldReuseRoute = function () {
+    //   return false;
+    // };
+
+    //this.mySubscription = this.router.events.subscribe((event) => {
+      //if (event instanceof NavigationEnd) {
+        // Trick the Router into believing it's last link wasn't previously loaded
+        //this.router.navigated = false;
+      //}
+    //});
+   }
 
   ticketsArray: any[] = [];
   dtOptions: DataTables.Settings = {};
@@ -35,8 +48,13 @@ export class ViewticketsComponent implements OnInit {
   currentUser:string;
   ticketCompanyName:string;
   
-
+  currentRouter = this.router.url;
   ngOnInit() {
+     
+    // this.router.routeReuseStrategy.shouldReuseRoute = () => {
+    //   return false;
+    // }
+
     this.isRaised=false;
     this.dtOptions = {
       pageLength: 10,
@@ -69,6 +87,12 @@ export class ViewticketsComponent implements OnInit {
       console.log('got data from getEngineerEmailIds()='+this.engineerdetails);
       })
 }
+
+// ngOnDestroy() {
+//   if (this.mySubscription) {
+//     this.mySubscription.unsubscribe();
+//   }
+// }
    
   ticketform=new FormGroup({
     companyName: new FormControl('' , Validators.required),
@@ -115,13 +139,19 @@ export class ViewticketsComponent implements OnInit {
       console.log('Response Code ='+statusCode);
       if(statusCode==201){
         //this.ngOnInit();
-        alert(response.body.message);
+        alert(response.body.message);        
         //this.router.navigate(['/clients', response]);
         }
 
         else if (statusCode == 200) {
           this.isRaised=true;
-          alert(response.body.message);
+          //alert(response.body.message);
+          //this.refreshPage();
+          //location.reload();
+          //this.reLoad();
+          //debugger
+          // this.router.navigateByUrl('/tickets');
+          //this.parent();
           //this.router.onSameUrlNavigation = 'reload';
           //this.ngOnInit();
           //this.router.navigate(['/tickets']);
@@ -200,5 +230,22 @@ export class ViewticketsComponent implements OnInit {
   get EngineerComment(){
     return this.ticketform.get('engineerComment');
   }
+   
+  refresh(): void {
+    this.router.navigateByUrl("/home", { skipLocationChange: true }).then(() => {
+      console.log(decodeURI(this.location.path()));
+      this.router.navigate([decodeURI(this.location.path())]);
+    });
+  }
 
+  reLoad(){
+    this.router.navigate([this.currentRouter])
+ }
+ parent(){
+     this.router.navigate(['../'], { relativeTo: this.activatedRoute });
+ }
+
+ refreshPage() {
+  this._document.defaultView.location.reload();
+}
 }

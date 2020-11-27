@@ -21,17 +21,15 @@
     <nav id="sidebar">
         <div class="p-4 pt-5">
           <a class="img logo rounded-circle mb-5" style="background-image: url(assets/login.jpg);"></a>
-    <ul class="list-unstyled components mb-5">
+    <ul class="list-unstyled components mb-5-nav">
       <li class="active">
-        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-        <ul class="collapse list-unstyled" id="homeSubmenu">
-        </ul>
+        <a href="#">Home</a>
       </li>
-       <li *ngIf="userRole == 'ADMIN'">
-        <a href="#" routerLink="/clients">Clients</a>
-        </li>
+       <li *ngIf="userRole == 'ADMIN'" >
+        <a href="#" routerLink="/clients" >Clients</a>
+        </li >
         <li *ngIf="userRole == 'ADMIN'">
-          <a href="#" routerLink="/gadgets">Assets Assigned</a>
+          <a href="#" routerLink="/gadgets" >Assets Assigned</a>
         </li>
       <li>
         <a href="#" routerLink="/tickets" >All Tickets</a>
@@ -46,7 +44,12 @@
   <router-outlet></router-outlet>
   </div>
   </div>
-  
+  <script>
+    $(".nav li").on("click", function() {
+      $(".nav li").removeClass("active");
+      $(this).addClass("active");
+    });
+</script>
     <script src="assets/js/jquery.min.assets/js"></script>
     <script src="assets/js/popper.assets/js"></script>
     <script src="assets/js/bootstrap.min.assets/js"></script>

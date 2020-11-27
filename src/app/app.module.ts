@@ -15,6 +15,7 @@ import { ViewClientRegistersComponent } from './view-client-registers/view-clien
 import { ViewticketsComponent } from './view-tickets/view-tickets.component';
 import { ViewGadgetsComponent } from './view-gadgets/view-gadgets.component';
 import { CommonModule } from '@angular/common';
+import { RefreshComponent } from './refresh/refresh.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { CommonModule } from '@angular/common';
     LogoutComponent,
     ViewClientRegistersComponent,
     ViewticketsComponent,
-    ViewGadgetsComponent
+    ViewGadgetsComponent,
+    RefreshComponent
   ],
   imports: [
     BrowserModule,

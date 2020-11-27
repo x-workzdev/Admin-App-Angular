@@ -20,10 +20,10 @@
 
                   <div class="col-sm-4"></div>
                   <div class="col-sm-4">
-                          <div class="alert alert-info alert-dismissible">
+                          <!-- <div class="alert alert-info alert-dismissible">
                                   <button type="button" class="close" data-dismiss="alert">&times;</button>
                                   <strong>Client Data Deleted</strong>
-                          </div>
+                          </div> -->
                   </div>
                   <div class="col-sm-4"></div>
           </div>           
@@ -50,8 +50,8 @@
                     <td>{{client.companyName}}</td>
                     <td>{{client.emailId}}</td>
                     <td>{{client.contactNumber}}</td>
-                    <td>{{client.address}}</td>
-                    <td><button  class='btn btn-danger'><i class="fa fa-futboll-0"  (click)="deleteclient(client.companyName)">Delete</i></button>&nbsp;
+                    <td>{{client.address}}</td>                                             
+                    <td><button  class='btn btn-danger' data-toggle="modal" data-target="#deleteModal"><i class="fa fa-futboll-0" (click)="tempDeleteClient(client.companyName)" >Delete</i></button>&nbsp;
                       <button (click)="ClientSelected(client)" class='btn btn-primary'
                       data-toggle="modal" data-target="#myModal">Update</button>
                     </td>
@@ -104,7 +104,7 @@
               </div>
               <!-- Modal footer -->
               <div class="modal-footer" >
-                <button type="submit" class="btn btn-success" [hidden]="isupdated">Update</button>
+                <button type="submit" class="btn btn-success" [disabled]="isupdated">Update</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="changeisUpdate()">Close</button>
               </div>
               
@@ -113,19 +113,25 @@
           </div>
         </div>
 
-        <!-- <div class="modal" id="deleteModal">
+        <div class="modal" id="deleteModal">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-body">
+                
                 <div [hidden]="isDeleted">
                   <h4>Are You Sure? You Want To Delete!</h4>
                 </div>
+
+                <div [hidden]="!isDeleted">
+                  <h4>Client Deleted Successfuly.</h4>
+                </div>
+                
               </div>  
               </div>
               
               <div class="modal-footer" >
-                <button type="submit" class="btn btn-success" [hidden]="isDeleted" >Delete</button>
+                <button type="submit" class="btn btn-success" [disabled]="isDeleted" (click)="deleteclient(deleteClientDetail)">Delete</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
               </div>
               </div>
-              </div> -->
+              </div>

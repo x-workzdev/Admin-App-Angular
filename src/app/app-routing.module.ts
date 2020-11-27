@@ -7,10 +7,12 @@ import { SignupComponent } from './signup/signup.component';
 import { ViewClientRegistersComponent } from './view-client-registers/view-client-registers.component';
 import { ViewticketsComponent } from './view-tickets/view-tickets.component';
 import { ViewGadgetsComponent } from './view-gadgets/view-gadgets.component';
+import { RefreshComponent } from './refresh/refresh.component';
 
 const routes: Route[] = [
-  {path:'', redirectTo:'/login', pathMatch:'full'},
+  {path:'', redirectTo:'/home', pathMatch:'full'},
   {path:'home',component:HomeComponent},
+  {path:'refresh',component:RefreshComponent},
   {path:'login', component: LoginComponent},
   {path:'signup', component:SignupComponent},
   {path : 'profile',component : ProfileComponent},
@@ -20,7 +22,7 @@ const routes: Route[] = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

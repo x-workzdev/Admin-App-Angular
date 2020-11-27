@@ -24,6 +24,7 @@ import { ClientDetails } from '../classes/client-details';
   clientlist:any;
   isupdated = false; 
   isDeleted:boolean = false;  
+  deleteClientDetail:any;
 
   ngOnInit() {
     this.isupdated=false;
@@ -53,6 +54,12 @@ import { ClientDetails } from '../classes/client-details';
             })
         },
         error => console.log(error));
+  }
+
+  tempDeleteClient(clientCompany:any){
+    this.isDeleted=false;
+    this.deleteClientDetail = clientCompany;
+    console.log('deleteClientDetail='+this.deleteClientDetail);
   }
 
 
@@ -123,6 +130,10 @@ import { ClientDetails } from '../classes/client-details';
 
   changeisUpdate(){
     this.isupdated=false;
+  }
+
+  deleteChanged(){
+    this.isDeleted=false;
   }
  
 }

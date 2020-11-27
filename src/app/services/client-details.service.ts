@@ -21,7 +21,7 @@ export class ClientDetailsService {
   }
 
   deleteClient(companyName: String): Observable<any> {
-    return this.httpClient.post(environment.apiUrl+`updateClient/${companyName}`, {observe:'response', responseType: 'json'});
+    return this.httpClient.put(environment.apiUrl+`updateClient/${companyName}`, {observe:'response', responseType: 'json'});
   }
 
   getClient(company: String): Observable<Object> {
